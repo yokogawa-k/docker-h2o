@@ -3,6 +3,7 @@ MAINTAINER Kazuya Yokogawa "yokogawa-k@klab.com"
 
 RUN apt-get update \
     && apt-get --no-install-recommends -y install \
+        curl \
         git \
         automake \
         libtool \
@@ -26,13 +27,15 @@ RUN git clone https://github.com/libuv/libuv.git \
     && cd / \
     && rm -rf /libuv
 
-RUN git clone https://github.com/h2o/h2o.git \
-    && cd h2o \
+ENV H2O_VERSION 1.0.1
+RUN curl -LO https://github.com/h2o/h2o/archive/v${H2O_VERSION}.tar.gz \
+    && tar xzf v${H2O_VERSION}.tar.gz \
+    && cd h2o-${H2O_VERSION} \
     && cmake . \
     && make -j $(nproc) \
     && make install \
     && cd / \
-    && rm -rf /h2o
+    && rm -rf /h2o-${H2O_VERSION}
 
 ENTRYPOINT ["h2o"]
 CMD ["--help"]
