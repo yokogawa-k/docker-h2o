@@ -11,7 +11,7 @@ RUN apt-get update \
         g++ \
         make \
         cmake \
-        libssl-dev \
+        pkg-config \
         libyaml-dev \
         libc6-dev \
         ca-certificates \
@@ -27,15 +27,15 @@ RUN git clone https://github.com/libuv/libuv.git \
     && cd / \
     && rm -rf /libuv
 
-ENV H2O_VERSION 1.1.1
+ENV H2O_VERSION 1.4.4
 RUN curl -LO https://github.com/h2o/h2o/archive/v${H2O_VERSION}.tar.gz \
     && tar xzf v${H2O_VERSION}.tar.gz \
     && cd h2o-${H2O_VERSION} \
-    && cmake . \
+    && cmake -DWITH_BUNDLED_SSL=on . \
     && make -j $(nproc) \
     && make install \
     && cd / \
-    && rm -rf /h2o-${H2O_VERSION}
+    && rm -rf /h2o-${H2O_VERSION} v${H2O_VERSION}.tar.gz
 
 ENTRYPOINT ["h2o"]
 CMD ["--help"]
