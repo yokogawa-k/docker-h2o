@@ -10,10 +10,14 @@ RUN apt-get update \
         gcc \
         g++ \
         make \
+        ruby \
+        bison \
+        patch \
         cmake \
         pkg-config \
         libyaml-dev \
         libc6-dev \
+        zlib1g-dev \
         ca-certificates \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists 
@@ -27,11 +31,11 @@ RUN git clone https://github.com/libuv/libuv.git \
     && cd / \
     && rm -rf /libuv
 
-ENV H2O_VERSION 1.4.4
+ENV H2O_VERSION 1.5.0
 RUN curl -LO https://github.com/h2o/h2o/archive/v${H2O_VERSION}.tar.gz \
     && tar xzf v${H2O_VERSION}.tar.gz \
     && cd h2o-${H2O_VERSION} \
-    && cmake -DWITH_BUNDLED_SSL=on . \
+    && cmake -DWITH_BUNDLED_SSL=on -DWITH_MRUBY=on . \
     && make -j $(nproc) \
     && make install \
     && cd / \
