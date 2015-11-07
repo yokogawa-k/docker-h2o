@@ -31,7 +31,7 @@ RUN git clone https://github.com/libuv/libuv.git \
     && cd / \
     && rm -rf /libuv
 
-ENV H2O_VERSION 1.5.1
+ENV H2O_VERSION 1.5.3
 RUN curl -LO https://github.com/h2o/h2o/archive/v${H2O_VERSION}.tar.gz \
     && tar xzf v${H2O_VERSION}.tar.gz \
     && cd h2o-${H2O_VERSION} \
