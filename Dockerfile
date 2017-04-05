@@ -11,6 +11,7 @@ RUN apt-get update \
         g++ \
         make \
         ruby \
+        ruby-dev \
         bison \
         patch \
         cmake \
